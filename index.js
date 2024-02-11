@@ -1,8 +1,8 @@
-require("dotenv").config()
+require("dotenv").config();
 
-const { google } = require('googleapis');
+import { google } from 'googleapis';
 
-//Google authentication here you put your credentials of google sheets API
+//Google authentication here you put your credentials of google sheets API.
 const auth = new google.auth.GoogleAuth({
     keyFile: 'credentials.json', // way to credentials file, here is the credential that you take of google and you get in json 
     scopes: ['https://www.googleapis.com/auth/spreadsheets'] // here you put the google sheets API
