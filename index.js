@@ -1,3 +1,5 @@
+require("dotenv").config()
+
 const { google } = require('googleapis');
 
 //Google authentication here you put your credentials of google sheets API
@@ -34,7 +36,7 @@ function calculateSituation(media, absence, totalClass) {
 async function updateSheet(data) {
     try {
         const response = await sheets.spreadsheets.values.update({
-            spreadsheetId: '1npbD3YOJQpfNSCnI0Jrj-rZk1VMBwtcPIQh_bg68fTM', // here I pass the sheet's ID 
+            spreadsheetId:process.env.SHEEDTID, // here I pass the sheet's ID 
             range: 'engenharia_de_software!G4:H', // Here I pass the cell's name and specify the range of cells to update
             valueInputOption: 'RAW',
             resource: { values: data }
@@ -50,7 +52,7 @@ async function updateSheet(data) {
 async function readSheets() {
     try {
         const response = await sheets.spreadsheets.values.get({
-            spreadsheetId: '1npbD3YOJQpfNSCnI0Jrj-rZk1VMBwtcPIQh_bg68fTM',
+            spreadsheetId:process.env.SHEEDTID,
             range: 'engenharia_de_software!A4:H', // Specify the range of cells you want to read
         });
 
