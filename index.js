@@ -72,7 +72,7 @@ async function readSheets() {
                 console.log('Media of student is: ' + parseFloat(media));
                 const { situation, naf } = calculateSituation(media, absence, totalclass); //take the situation and naf calculated in 
                                                                                           //function and take the information about the students
-                data.push([situation, naf]);
+                data.push([situation, naf]);//taking the data in getting on the cell
                 console.log(situation);
                 console.log("-------------------------");
                
