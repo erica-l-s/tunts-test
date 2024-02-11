@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const {google}=require('googleapis')
+const { google } = require('googleapis')
 
 //Google authentication here you put your credentials of google sheets API.
 const auth = new google.auth.GoogleAuth({
@@ -12,18 +12,18 @@ const sheets = google.sheets({ version: 'v4', auth }); // here you put the versi
 
 // Function to calculate the student situation, I used the if and else to pass this rules
 function calculateSituation(media, absence, totalClass) {
-   
+
     if (absence > 0.25 * totalClass) {
         console.log("Repprove for absence");
-        return { situation: "Reprovado por falta", naf: 0 }; 
+        return { situation: "Reprovado por falta", naf: 0 };
     }
-    else if (media <= 50 || media < 70 ) {
-        const naf = Math.ceil((50 + media )/2); //calculate the naf to know final notes of each students as requested and round to the largest whole number
+    else if (media <= 50 || media < 70) {
+        const naf = Math.ceil((50 + media) / 2); //calculate the naf to know final notes of each students as requested and round to the largest whole number
         console.log("Final exams");
         console.log(`Grade to final approved: ${naf}`);
-        return { situation: "Exame Final", naf}; // and pass here if the situation and naf that the students need to pass, and when they dont need, pass only 0
- 
- }else if (media >= 70) {
+        return { situation: "Exame Final", naf }; // and pass here if the situation and naf that the students need to pass, and when they dont need, pass only 0
+
+    } else if (media >= 70) {
         console.log("Approved");
         return { situation: "Aprovado", naf: 0 };
     } else {
@@ -36,7 +36,7 @@ function calculateSituation(media, absence, totalClass) {
 async function updateSheet(data) {
     try {
         const response = await sheets.spreadsheets.values.update({
-            spreadsheetId:process.env.SHEEDTID, // here I pass the sheet's ID 
+            spreadsheetId: process.env.SHEEDTID, // here I pass the sheet's ID 
             range: 'engenharia_de_software!G4:H', // Here I pass the cell's name and specify the range of cells to update
             valueInputOption: 'RAW',
             resource: { values: data }
@@ -52,12 +52,12 @@ async function updateSheet(data) {
 async function readSheets() {
     try {
         const response = await sheets.spreadsheets.values.get({
-            spreadsheetId:process.env.SHEEDTID,
+            spreadsheetId: process.env.SHEEDTID,
             range: 'engenharia_de_software!A4:H', // Specify the range of cells you want to read
         });
 
         const rows = response.data.values; // take the informations about the sheets row
-                 
+
         if (rows.length) { // verify the rows 
             const totalclass = 60; //total class that is pass in the cell
             const data = [];
@@ -73,20 +73,20 @@ async function readSheets() {
                 console.log(`Student's situation ${name}:`);
                 console.log('Media of student is: ' + parseFloat(media));
                 const { situation, naf } = calculateSituation(media, absence, totalclass); //take the situation and naf calculated in 
-                                                                                          //function and take the information about the students
+                //function and take the information about the students
                 data.push([situation, naf]);//taking the data in getting on the cell
                 console.log(situation);
                 console.log("-------------------------");
-               
-              
+
+
                 return situation
-                
+
             });
             await updateSheet(data) // update the sheet with all students informations 
         } else {
             console.log('Not data was found in sheet');
         }
-       
+
     } catch (error) {
         console.error('Error to read the sheet:', error);
     }
