@@ -51,3 +51,6 @@ You can customize the grade calculation rules and student statuses by modifying 
 
 ## Author
 Erica Lima e Silva
+
+## Link Google Sheet
+[Google sheets Erica Lima e Silva](https://docs.google.com/spreadsheets/d/1npbD3YOJQpfNSCnI0Jrj-rZk1VMBwtcPIQh_bg68fTM/edit?usp=sharing)
